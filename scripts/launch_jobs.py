@@ -47,7 +47,7 @@ traces = [("bc", "bc.sift"),
 
 
 # Docker command to run the binary inside the container
-docker_command = "docker run --rm -v "+args.path + \
+docker_command = "podman run --rm -v "+args.path + \
     ":/app/ docker.io/kanell21/artifact_evaluation:victima"
 
 baseline = " -c /app/sniper/config/virtual_memory_configs/radix.cfg "
