@@ -286,7 +286,7 @@ Cache::insertSingleLine(IntPtr addr, Byte* fill_buff,
 
       int reuse_value = evict_block_info->getReuse();
       
-      if(cache_block_info->getBlockType()==CacheBlockInfo::block_type_t::NON_PAGE_TABLE){
+      if(evict_block_info->getBlockType()==CacheBlockInfo::block_type_t::NON_PAGE_TABLE){
 
          if(reuse_value == 0) data_reuse[0]++;
          else if(reuse_value <= reuse_levels[0] ) data_reuse[1]++;
@@ -296,14 +296,14 @@ Cache::insertSingleLine(IntPtr addr, Byte* fill_buff,
 
          sum_data_reuse+=reuse_value;
          sum_data_utilization += evict_block_info->getUsage();
-         data_util[bits_set(evict_block_info->getUsage())-1]++;
+         data_util[bits_set(evict_block_info->getUsage())]++;
 
 
          number_of_data_reuse++;
          average_data_reuse = sum_data_reuse/number_of_data_reuse;
 
       }
-      else if(cache_block_info->getBlockType() == CacheBlockInfo::block_type_t::PAGE_TABLE){
+      else if(evict_block_info->getBlockType() == CacheBlockInfo::block_type_t::PAGE_TABLE){
          if(reuse_value == 0) metadata_reuse[0]++;
          else if(reuse_value <= reuse_levels[0] ) metadata_reuse[1]++;
          else if(reuse_value <= reuse_levels[1]) metadata_reuse[2]++;
@@ -312,12 +312,12 @@ Cache::insertSingleLine(IntPtr addr, Byte* fill_buff,
 
          sum_metadata_reuse+=reuse_value;
          sum_metadata_utilization += evict_block_info->getUsage();
-         metadata_util[bits_set(evict_block_info->getUsage())-1]++;
+         metadata_util[bits_set(evict_block_info->getUsage())]++;
 
          number_of_metadata_reuse++;
          average_metadata_reuse = sum_metadata_reuse/number_of_metadata_reuse;
       }
-      else if( cache_block_info->getBlockType() == CacheBlockInfo::block_type_t::TLB_ENTRY ||  cache_block_info->getBlockType() == CacheBlockInfo::block_type_t::TLB_ENTRY_PASSTHROUGH)
+      else if( evict_block_info->getBlockType() == CacheBlockInfo::block_type_t::TLB_ENTRY ||  evict_block_info->getBlockType() == CacheBlockInfo::block_type_t::TLB_ENTRY_PASSTHROUGH)
       {
 
          if(reuse_value == 0) tlb_reuse[0]++;
@@ -328,7 +328,7 @@ Cache::insertSingleLine(IntPtr addr, Byte* fill_buff,
 
          sum_tlb_reuse+=reuse_value;
          sum_tlb_utilization += evict_block_info->getUsage();
-         tlb_util[bits_set(evict_block_info->getUsage())-1]++;
+         tlb_util[bits_set(evict_block_info->getUsage())]++;
          number_of_tlb_reuse++;
 
       }
